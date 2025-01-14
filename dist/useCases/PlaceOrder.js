@@ -13,33 +13,29 @@ exports.PlaceOrder = void 0;
 const client_dynamodb_1 = require("@aws-sdk/client-dynamodb");
 const client_sqs_1 = require("@aws-sdk/client-sqs");
 const lib_dynamodb_1 = require("@aws-sdk/lib-dynamodb");
-const crypto_1 = require("crypto");
+const Order_1 = require("../entities/Order");
 class PlaceOrder {
     excute() {
         return __awaiter(this, void 0, void 0, function* () {
             const customerEmail = "customer@email.com";
             const amount = Math.ceil(Math.random() * 100);
+            const order = new Order_1.Order(customerEmail, amount);
             const ddbClient = lib_dynamodb_1.DynamoDBDocumentClient.from(new client_dynamodb_1.DynamoDBClient({ region: "us-east-1" }));
-            const orderId = (0, crypto_1.randomUUID)();
             const putItemCommand = new lib_dynamodb_1.PutCommand({
                 TableName: "Orders",
-                Item: {
-                    id: orderId,
-                    email: customerEmail,
-                    amount: amount,
-                },
+                Item: order,
             });
             yield ddbClient.send(putItemCommand);
             const sqsClient = new client_sqs_1.SQSClient({ region: "us-east-1" });
             const sendMessageCommand = new client_sqs_1.SendMessageCommand({
                 QueueUrl: "https://sqs.us-east-1.amazonaws.com/379443323181/ProcessPaymentQueue",
                 MessageBody: JSON.stringify({
-                    orderId,
+                    orderId: order.id,
                 }),
             });
             yield sqsClient.send(sendMessageCommand);
-            console.log(`Email Sent to ${customerEmail} with order id ${orderId}`);
-            return { orderId };
+            console.log(`Email Sent to ${customerEmail} with order id ${order.id}`);
+            return { orderId: order.id };
         });
     }
 }
