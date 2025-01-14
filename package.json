@@ -1,0 +1,23 @@
+{
+  "name": "IoC_DI_DIP",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsc:watch": "tsc --watch",
+    "start": "node --watch dist/main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.10.6",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.726.1",
+    "@aws-sdk/client-sqs": "^3.726.1",
+    "@aws-sdk/lib-dynamodb": "^3.726.1",
+    "fastify": "^5.2.1"
+  }
+}
