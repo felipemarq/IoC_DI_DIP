@@ -3,15 +3,18 @@ import { Order } from "../entities/Order";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { IOrdersRepository } from "../interfaces/repositories/IOrdersRepository";
 
+// Implementação do repositório usando DynamoDB
 export class DynamoOrdersRepository implements IOrdersRepository {
+  // Cria cliente configurado com DocumentClient, que facilita o uso com objetos JS
   private client = DynamoDBDocumentClient.from(
     new DynamoDBClient({ region: "us-east-1" })
   );
 
+  // Método para criar (persistir) um pedido na tabela Orders
   async create(order: Order): Promise<void> {
     const putItemCommand = new PutCommand({
-      TableName: "Orders",
-      Item: order,
+      TableName: "Orders", // Nome da tabela
+      Item: order, // Objeto do pedido a ser salvo
     });
 
     await this.client.send(putItemCommand);
