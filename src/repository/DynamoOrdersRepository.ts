@@ -1,8 +1,9 @@
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 import { Order } from "../entities/Order";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { IOrdersRepository } from "../interfaces/repositories/IOrdersRepository";
 
-export class DynamoOrdersRepository {
+export class DynamoOrdersRepository implements IOrdersRepository {
   private client = DynamoDBDocumentClient.from(
     new DynamoDBClient({ region: "us-east-1" })
   );

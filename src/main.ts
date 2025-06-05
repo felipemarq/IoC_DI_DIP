@@ -1,10 +1,10 @@
 import Fastify from "fastify";
-import { PlaceOrder } from "./useCases/PlaceOrder";
+import { makePlaceOrder } from "./factories/makePlaceOrder";
 
 const app = Fastify();
 
 app.post("/orders", async (request, response) => {
-  const placeOrder = new PlaceOrder();
+  const placeOrder = makePlaceOrder();
 
   const { orderId } = await placeOrder.excute();
 
