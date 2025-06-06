@@ -13,14 +13,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_1 = __importDefault(require("fastify"));
-const container_1 = require("./di/container");
 const PlaceOrder_1 = require("./useCases/PlaceOrder");
 const DynamoOrdersRepository_1 = require("./repository/DynamoOrdersRepository");
 const SQSGateway_1 = require("./gateways/SQSGateway");
+const Registry_1 = require("./di/Registry");
 const app = (0, fastify_1.default)();
-console.log(container_1.container);
+const container = Registry_1.Registry.getInstance();
+console.log(container);
 app.post("/orders", (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    const placeOrder = new PlaceOrder_1.PlaceOrder(container_1.container.resolve(DynamoOrdersRepository_1.DynamoOrdersRepository), container_1.container.resolve(SQSGateway_1.SQSGateway));
+    const placeOrder = new PlaceOrder_1.PlaceOrder(container.resolve(DynamoOrdersRepository_1.DynamoOrdersRepository), container.resolve(SQSGateway_1.SQSGateway));
     const { orderId } = yield placeOrder.excute();
     response.status(201).send({ orderId });
 }));

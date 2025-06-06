@@ -2,8 +2,10 @@
 import { SendMessageCommand, SQSClient } from "@aws-sdk/client-sqs";
 // Importa a interface que este gateway deve implementar
 import { IQueueGateway } from "../interfaces/gateways/IQueueGateway";
+import { Injectable } from "../di/Injectable";
 
 // Implementação do gateway da AWS SQS que cumpre o contrato da interface
+@Injectable()
 export class SQSGateway implements IQueueGateway {
   // Cria instância do cliente da SQS com a região configurada
   private sqsClient = new SQSClient({ region: "us-east-1" });

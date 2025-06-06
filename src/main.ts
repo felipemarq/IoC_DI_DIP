@@ -1,11 +1,13 @@
 import Fastify from "fastify";
 import { makePlaceOrder } from "./factories/makePlaceOrder";
-import { container } from "./di/container";
 import { PlaceOrder } from "./useCases/PlaceOrder";
 import { DynamoOrdersRepository } from "./repository/DynamoOrdersRepository";
 import { SQSGateway } from "./gateways/SQSGateway";
+import { Registry } from "./di/Registry";
 
 const app = Fastify();
+
+const container = Registry.getInstance();
 console.log(container);
 
 app.post("/orders", async (request, response) => {

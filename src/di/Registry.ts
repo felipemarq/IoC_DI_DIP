@@ -1,4 +1,4 @@
-type Constructor<T> = new (...args: any[]) => T;
+import { Constructor } from "../types/utils";
 
 export interface IDIContainer {
   register<T>(implementation: Constructor<T>): void;
